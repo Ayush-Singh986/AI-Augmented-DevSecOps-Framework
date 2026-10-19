@@ -43,26 +43,11 @@ For a beginner-friendly explanation of the project, start with [README_PROJECT_E
 
 ## 🏗 Architecture
 
-### System Components
+### System Architecture
 
-```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   CI/CD Pipeline │    │  LSTM Detector  │    │ Zero-Day Engine │
-│   (Jenkins)     │────│   (64 units)    │────│  (Behavioral)   │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-         │                       │                       │
-         ▼                       ▼                       ▼
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│ Security Gates  │    │  Orchestrator   │    │ Policy Engine   │
-│ (SAST/DAST)     │────│ (Conflict Res.) │────│ (NetworkPolicy) │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-         │                       │                       │
-         ▼                       ▼                       ▼
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Kubernetes    │    │   Prometheus    │    │  Message Bus    │
-│   (Runtime)     │────│  (Monitoring)   │────│ (Event-Driven)  │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-```
+![Conceptual architecture of the AI-Augmented DevSecOps Framework](docs/architecture/devSecOps.png)
+
+*This diagram shows the proposed component relationships. The repository is a prototype; some components and end-to-end connections are incomplete.*
 
 ## 📋 Prerequisites
 
