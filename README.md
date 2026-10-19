@@ -45,9 +45,90 @@ For a beginner-friendly explanation of the project, start with [README_PROJECT_E
 
 ### System Architecture
 
-![Conceptual architecture of the AI-Augmented DevSecOps Framework](docs/architecture/devSecOps.png)
+```mermaid
+flowchart LR
+    subgraph delivery["1. Software change and CI/CD"]
+        Dev["Developer"]
+        Repo["Git repository"]
+        CI["GitHub Actions / Jenkins<br/>test and build"]
+        Scans["Code and dependency scans"]
+        Gate["Deployment security gate<br/>(incomplete)"]
+        Image["Build container image"]
+        Registry["Container registry"]
+        Deploy["Deploy application"]
 
-*This diagram shows the proposed component relationships. The repository is a prototype; some components and end-to-end connections are incomplete.*
+        Dev --> Repo --> CI
+        CI --> Scans --> Gate
+        Gate -->|Pass| Image --> Registry --> Deploy
+        Gate -->|Block| Dev
+    end
+
+    subgraph runtime["2. Cloud runtime and event preparation"]
+        Cluster["Kubernetes cluster"]
+        App["Application workloads<br/>APIs and containers"]
+        Events["Security events<br/>network, API, workload"]
+        Ingest["Data ingestion"]
+        Prep["Preprocessing<br/>(incomplete)"]
+
+        Deploy --> Cluster
+        Cluster --> App
+        App --> Events --> Ingest --> Prep
+    end
+
+    subgraph detection["3. Detection and validation"]
+        LSTM["LSTM sequence detector<br/>(prototype)"]
+        Behavior["Behavior / zero-day analysis<br/>(incomplete)"]
+        API["API security checks<br/>(incomplete)"]
+        Business["Business workflow checks<br/>(incomplete)"]
+        Spec["API specification and test cases"]
+
+        Prep --> LSTM
+        Prep --> Behavior
+        Spec --> API
+        App --> API
+        App --> Business
+    end
+
+    subgraph response["4. Decision and response"]
+        Bus["Security signal collection"]
+        Orchestrator["Signal orchestrator<br/>(selection prototype)"]
+        Decision["Review and response decision"]
+        Policy["Policy generation<br/>(incomplete)"]
+        K8sAction["Kubernetes integration"]
+        Restrict["Proposed network restriction<br/>or workload isolation"]
+
+        LSTM --> Bus
+        Behavior --> Bus
+        API --> Bus
+        Business --> Bus
+        Bus --> Orchestrator --> Decision --> Policy --> K8sAction --> Restrict
+        Restrict -. "would apply to" .-> Cluster
+    end
+
+    subgraph observability["5. Monitoring and feedback"]
+        Collector["Telemetry collector<br/>(partial)"]
+        Prometheus["Prometheus metrics"]
+        Alerts["Alert routing<br/>(not configured)"]
+        SecOps["Security operator"]
+
+        Cluster --> Collector --> Prometheus --> Alerts --> SecOps
+        Orchestrator --> SecOps
+        SecOps -. "review and tune" .-> Gate
+        SecOps -. "investigate events" .-> Events
+    end
+
+    classDef assets fill:#e8f1ff,stroke:#3567a8,color:#152b45
+    classDef prototype fill:#fff3cd,stroke:#b58105,color:#4b3900
+    classDef incomplete fill:#fff0ed,stroke:#c74b35,stroke-dasharray:5 5,color:#54251c
+    classDef external fill:#f2f2f2,stroke:#666,color:#222
+    class Dev,Registry,Cluster,App,Events,Spec,SecOps external
+    class Repo,CI,Scans,Image,Ingest,Prometheus assets
+    class LSTM,Bus,Orchestrator,K8sAction prototype
+    class Gate,Deploy,Prep,Behavior,API,Business,Decision,Policy,Restrict,Alerts incomplete
+    class Collector prototype
+```
+
+**Diagram key:** Gray nodes are external systems, inputs, or people. Blue nodes have related code/configuration in the repository; amber nodes are prototype or partial implementations; dashed red nodes are incomplete or proposed steps. These colors describe repository coverage, not production readiness. The full flow is the intended architecture—the current repository does not run these steps together end to end.
 
 ## 📋 Prerequisites
 
