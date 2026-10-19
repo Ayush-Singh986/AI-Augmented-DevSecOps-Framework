@@ -1,0 +1,50 @@
+@startuml AI-Augmented DevSecOps Architecture
+
+skinparam {
+    componentStyle rectangle
+    backgroundColor white
+    handwritten false
+}
+
+!define CONTAINER(c) [c] <<container>>
+
+' Define components
+rectangle "CI/CD Pipeline" as cicd <<container>> {
+    component "Jenkins" as jenkins
+    note bottom: Build, test, deploy
+}
+
+rectangle "Cloud Infrastructure" as cloud <<container>> {
+    rectangle "Monitoring" as monitoring <<container>> {
+        component "Prometheus" as prometheus <<container>>
+        note bottom: Telemetry collection
+        
+        component "Alert Manager" as alertmgr <<container>>
+        note bottom: Alert routing
+    }
+    
+    component "Kubernetes Cluster" as k8s <<container>>
+    note bottom: Container Orchestration\nManages containerized services
+    
+    rectangle "ML Components" as ml <<container>> {
+        component "LSTM Threat Detector" as lstm <<container>>
+        note bottom: Real-time threat detection\n[TensorFlow]
+        
+        component "Anomaly Detection" as anomaly <<container>>
+        note bottom: Behavioral analysis\n[Python]
+    }
+}
+
+component "Security Scanner" as scanner <<container>>
+note bottom: SAST, DAST, SCA\n[Tools]
+
+' Define relationships
+cicd --> scanner : Runs
+cicd --> k8s : Deploys to
+scanner ..> alertmgr : Security alerts
+prometheus --> alertmgr : Triggers alerts
+k8s <-- prometheus : Collects metrics
+k8s --> lstm : Hosts
+k8s --> anomaly : Hosts
+
+@enduml
