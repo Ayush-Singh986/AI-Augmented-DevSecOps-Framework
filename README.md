@@ -409,30 +409,6 @@ This framework supports ongoing research in:
 - **Explainable AI**: Interpretable security decisions
 - **Edge Computing**: Distributed deployment optimization
 
-## 📄 Citation
-
-If you use this framework in your research, please cite our paper:
-
-```bibtex
-@inproceedings{mittal2025ai,
-  title={AI-Augmented DevSecOps Pipelines for Secure and Scalable Service-Oriented Architectures in Cloud-Native Systems},
-  author={Mittal, Akshay},
-  booktitle={IEEE International Conference on Service-Oriented System Engineering (SOSE)},
-  year={2025},
-  organization={IEEE}
-}
-```
-
-## 📞 Support
-
-- **GitHub Issues**: [Report bugs and feature requests](https://github.com/Ayush-Singh986/ai-devsecops-framework/issues)
-- **Documentation**: [Complete API reference](docs/API_REFERENCE.md)
-- **Performance Results**: [Detailed benchmarks](models/results.md)
-- **Email**: amittal18886@ucumberlands.edu
-
-## 📜 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
